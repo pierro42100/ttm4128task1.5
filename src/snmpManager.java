@@ -26,27 +26,23 @@ public class snmpManager {
 			@Override
 
 			public void run() {
-				
-				////////////////////////////////////////////
-				// TEST MAIL
-				////////////////////////////////////////////
-				
+
 				String line; 
 				String value;
-				int valueInteger1 = 0;
-				int valueInteger2 = 0;
-				String ipAgent1;
-				String ipAgent2;
+				int valueInteger1 = 0; // Value for the first agent
+				int valueInteger2 = 0; // Value for the second agent
+				String ipAgent1; // ip address
+				String ipAgent2; // ip address 
 				
-				ipAgent1 = "127.0.0.1";
-				ipAgent2 = "138.68.88.225";
+				ipAgent1 = "127.0.0.1"; // ip address
+				ipAgent2 = "138.68.88.225"; // ip address
 				
-				// Command used to get number of received IPv4 datagrams
+				// Command used to get number of received IPv4 datagrams for the first agent
 				String commandline = "snmpget -v 2c -c ttm4128 " + ipAgent1 + " ipInReceives.0";
-				// Have to be done for both agents --> 2 addresses
 				
 				String[] cmd = {"bash","-c",commandline};
 				
+				// Execute the command for getting the first agent value
 				// Agent 1
 				try { 
 					Process p = Runtime.getRuntime().exec(cmd); //Execute the cmd
@@ -68,6 +64,8 @@ public class snmpManager {
 				// Command used to get number of received IPv4 datagrams
 				commandline = "snmpget -v 2c -c ttm4128 " + ipAgent2 + " ipInReceives.0";
 				cmd[2] = commandline;
+				
+				// Execute the command for getting the second agent value
 				// Agent 2
 				try { 
 					Process p = Runtime.getRuntime().exec(cmd); //Execute the cmd
@@ -86,10 +84,23 @@ public class snmpManager {
 
 				}
 				
-				String text = "Value for agent1 : " + valueInteger1 + " \nValue for agent2 : " + valueInteger2;
+				// Message that will be sent
+				
+				String text = "##############################\n";
+				text += "Agent 1 :\n";
+				text += "IP Address : " + ipAgent1 + "\n";
+				text += "Number of received IPv4 datagrams : " + valueInteger1 + "\n";
+				
+				text += "##############################\n";
+				
+				text += "Agent 2 :\n";
+				text += "IP Address : " + ipAgent2 + "\n";
+				text += "Number of received IPv4 datagrams : " + valueInteger2 + "\n";
+				text += "##############################\n";
 				
 				//sendEmail("SMTP", "Hello Marija !", "marijag@stud.ntnu.no");
-				sendEmail("SMTP", text, "marijag@stud.ntnu.no");
+				//sendEmail("SMTP", text, "marijag@stud.ntnu.no");
+				sendEmail("SMTP", text, "pjchovel@stud.ntnu.no");
 				
 			}
 		};
@@ -101,7 +112,7 @@ public class snmpManager {
 	public static void sendEmail(String subject, String text, String address) {
 
 		final String fromEmail = "pjchovel@ntnu.no"; //requires valid emil id
-		final String password = "11Juin1994"; // correct password for email id
+		final String password = ""; // correct password for email id
 		final String toEmail = address; // can be any email id 
 		
 		System.out.println("TLSEmail Start");
