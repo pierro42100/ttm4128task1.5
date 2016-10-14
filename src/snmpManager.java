@@ -112,6 +112,8 @@ public class snmpManager {
 	public static void sendEmail(String subject, String text, String address) {
 
 		final String fromEmail = "pjchovel@ntnu.no"; //requires valid emil id
+		
+		// DELETE password BEFORE SENDING IT :)
 		final String password = ""; // correct password for email id
 		final String toEmail = address; // can be any email id 
 		
